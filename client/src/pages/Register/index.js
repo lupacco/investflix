@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { createGlobalStyle } from "styled-components";
 import {
   Container,
@@ -11,8 +11,6 @@ import {
 } from "./style";
 import logo from "../../images/invest-logo.png";
 import banner from "../../images/invest-banner.png";
-// import { context } from "../../context";
-import { useHistory } from "react-router";
 import Axios from "axios";
 
 const GlobalStyle = createGlobalStyle`
@@ -39,18 +37,20 @@ export default function Register() {
   const [confPwd, setConfPwd] = useState("");
   const [birthdate, setBirthdate] = useState("");
   const [sex, setSex] = useState("");
-  const history = useHistory();
+
+  
+  
   const handleOnClick = (values) => {
-    Axios.post("localhost:3001/registro", {
-      name: values.user,
-      tel: values.tel,
-      email: values.email,
-      password: values.pwd,
-      birthdate: values.birthdate,
-      sex: values.sex,
-    }).then((res) => {
-      console.log(res);
-    });
+      Axios.post("http://localhost:3001/registro", {
+        name: user,
+        tel: tel,
+        email: email,
+        password: pwd,
+        birthdate: birthdate,
+        sex: sex,
+      }).then((res) => {
+        console.log(res); //exploit
+      });
     // history.push('#')
   };
 
@@ -63,60 +63,68 @@ export default function Register() {
         </StyledLink>
       </div>
       <Logo src={logo} />
-      <form onSubmit={handleOnClick}>
+      
         <Input
-          value={user}
+          name="name"
+          type="text"
           onChange={(event) => setUser(event.target.value)}
           placeholder="Nome completo"
           required
         ></Input>
         <Input
-          value={tel}
+          name="tel"
+          type="tel"
           onChange={(event) => setTel(event.target.value)}
           placeholder="Celular"
-          type="tel"
           required
         ></Input>
         <Input
-          value={email}
+          name="email"
+          type="text"
           onChange={(event) => setEmail(event.target.value)}
           placeholder="E-mail"
           required
         ></Input>
         <Input
-          value={confEmail}
+          name="confemail"
+          type="text"
           onChange={(event) => setConfEmail(event.target.value)}
           placeholder="Confirme seu e-mail"
           required
         ></Input>
         <Input
-          value={pwd}
+          name="password"
+          type="text"
           onChange={(event) => setPwd(event.target.value)}
           placeholder="Senha"
           required
         ></Input>
         <Input
-          value={confPwd}
+          name="confpassword"
+          type="text"
           onChange={(event) => setConfPwd(event.target.value)}
           placeholder="Confirme sua senha"
           required
         ></Input>
         <Input
-          value={birthdate}
+          name="birthdate"
+          type="text"
           onChange={(event) => setBirthdate(event.target.value)}
           placeholder="Data de nascimento"
           required
         ></Input>
         <Input
-          value={sex}
+          name="sex"
+          type="text"
           onChange={(event) => setSex(event.target.value)}
           placeholder="Sexo"
           required
         ></Input>
-        <Button type="submit">
+        <Button onClick={handleOnClick} type="submit">
           Cadastrar <IconArrow />
         </Button>
-      </form>
+        
+      
     </Container>
   );
 }
